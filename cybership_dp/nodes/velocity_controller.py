@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+import cybership_dp.CSAD
+import cybership_dp.CSAD.velocity_controller
 import cybership_dp.voyager.force_controller
 import cybership_dp.voyager.velocity_controller
 import rclpy
@@ -15,8 +17,8 @@ import argparse
 
 import numpy as np
 
-import cybership_utilities.utilities
-import cybership_utilities.launch
+import cybership_utilities.cybership_utilities.utilities
+import cybership_utilities.cybership_utilities.utilities
 
 import cybership_dp.voyager
 import cybership_dp.enterprise
@@ -24,9 +26,10 @@ import cybership_dp.enterprise
 
 class VelocityControllerManager():
 
-    VESSEL_MODEL_VOYAGER = cybership_utilities.utilities.VESSEL_MODEL_VOYAGER
-    VESSEL_MODEL_ENTERPRISE = cybership_utilities.utilities.VESSEL_MODEL_ENTERPRISE
-    VESSEL_MODELS = [VESSEL_MODEL_VOYAGER, VESSEL_MODEL_ENTERPRISE]
+    VESSEL_MODEL_VOYAGER = cybership_utilities.cybership_utilities.utilities.VESSEL_MODEL_VOYAGER
+    VESSEL_MODEL_ENTERPRISE = cybership_utilities.cybership_utilities.utilities.VESSEL_MODEL_ENTERPRISE
+    VESSEL_MODEL_CSAD = cybership_utilities.cybership_utilities.utilities.VESSEL_MODEL_CSAD
+    VESSEL_MODELS = [VESSEL_MODEL_VOYAGER, VESSEL_MODEL_ENTERPRISE, VESSEL_MODEL_CSAD]
 
     def __init__(self):
 
@@ -40,6 +43,9 @@ class VelocityControllerManager():
 
         if self.args.vessel_model == VelocityControllerManager.VESSEL_MODEL_VOYAGER:
             return cybership_dp.voyager.velocity_controller.VelocityControllerROS()
+        
+        elif self.args.vessel_model == VelocityControllerManager.VESSEL_MODEL_CSAD:
+            return cybership_dp.CSAD.velocity_controller.VelocityControllerROS()
 
         elif self.args.vessel_model == VelocityControllerManager.VESSEL_MODEL_ENTERPRISE:
             print("Force controller for C/S Enterprise is not implemented yet.")
